@@ -1,0 +1,104 @@
+:root {
+    --primary-color: #0A2540;
+    --accent-color: #00D4B3;
+    --background-color: #F6F9FC;
+    --text-color: #32325D;
+    --secondary-text-color: #525F7F;
+    --border-color: #E6E6E6;
+    --card-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+    --card-hover-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
+}
+
+body {
+    font-family: 'Lato', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    padding-top: 80px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+main {
+    flex: 1;
+    padding-bottom: 4rem;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.card {
+    border: none;
+    border-radius: 8px;
+    box-shadow: var(--card-shadow);
+    transition: all 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--card-hover-shadow);
+}
+
+.card-header {
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 600;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.form-label {
+    color: var(--secondary-text-color);
+    font-weight: 700;
+}
+
+.form-control, .form-select {
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    padding: 0.75rem 1rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 0.25rem rgba(0, 212, 179, 0.25);
+    outline: none;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    border-radius: 6px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 700;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-primary:hover {
+    background-color: #081c30;
+    border-color: #081c30;
+    transform: translateY(-1px);
+}
+
+.spinner-border {
+    color: var(--primary-color);
+}
+
+#resultado {
+    background-color: #FFFFFF;
+    padding: 1.5rem;
+    border-radius: 6px;
+    margin-top: 1.5rem;
+    border: 1px solid var(--border-color);
+}
+
+@media (max-width: 768px) {
+    body {
+        padding-top: 120px;
+    }
+}

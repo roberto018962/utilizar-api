@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APIs Diversas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/styles/style.css" rel="stylesheet" type="text/css">
+    <link href="/styles/weather.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <header-component>
+        <menu-component slot="menu"></menu-component>
+    </header-component>
+
+    <main class="container mt-5 pt-5">
+        <section id="chuck-section" class="mb-5">
+            <div class="card shadow">
+                <div class="card-header bg-dark text-white">
+                    <h1 class="h4 mb-0">Fatos do Chuck Norris</h1>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Descubra por que Chuck Norris não precisa de API, a API que precisa dele!</p>
+                    <div id="chuck-container">
+                        <div class="text-center">
+                            <div class="spinner-border text-warning" role="status">
+                                <span class="visually-hidden">Carregando...</span>
+                            </div>
+                            <p class="mt-2">Carregando fato épico do Chuck Norris...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bitcoin-section mb-5">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white">
+                    <h2 class="h4 mb-0">💰 Cotação do Bitcoin</h2>
+                </div>
+                <div class="card-body">
+                    <div id="bitcoin-container">
+                        <div class="text-center">
+                            <div class="spinner-border text-warning" role="status">
+                                <span class="visually-hidden">Carregando...</span>
+                            </div>
+                            <p class="mt-2">Carregando dados do Bitcoin...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="weather-section">
+            <div class="card shadow">
+                <div class="card-header bg-info text-white">
+                    <h2 class="h4 mb-0">🌤️ Previsão do Tempo</h2>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        Previsão meteorológica global usando dados do 7Timer! API.
+                        Obtenha informações detalhadas sobre temperatura, vento, umidade e condições do tempo.
+                    </p>
+                    <div id="weather-container">
+                        <div class="text-center">
+                            <div class="spinner-border text-info" role="status">
+                                <span class="visually-hidden">Carregando...</span>
+                            </div>
+                            <p class="mt-2">Detectando sua localização...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer-component></footer-component>
+
+    <script type="module" src="./components/header-component.js"></script>
+    <script type="module" src="./components/menu-component.js"></script>
+    <script type="module" src="./components/footer-component.js"></script>
+    <script type="module" src="./modules/utils.js"></script>
+    <script type="module" src="./modules/chuck-api.js"></script>
+    <script type="module" src="./modules/chuck-main.js"></script>
+    <script type="module" src="./modules/bitcoin-api.js"></script>
+    <script type="module" src="./modules/bitcoin-main.js"></script>
+    <script type="module" src="./modules/weather-api.js"></script>
+    <script type="module" src="./modules/weather-main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
