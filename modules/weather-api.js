@@ -1,6 +1,5 @@
 import { mostrarErroClima, formatarTemperatura } from './utils.js';
 
-// Produtos disponíveis na API
 export const PRODUTOS = {
     astro: 'Astronômico',
     civil: 'Civil',
@@ -9,7 +8,6 @@ export const PRODUTOS = {
     two: 'Two-Week-Overview'
 };
 
-// Função para mapear código do tempo para ícone e descrição
 function mapearCondicaoTempo(codigoTempo, produto = 'civil') {
     const mapeamento = {
         civil: {
@@ -58,7 +56,6 @@ function mapearCondicaoTempo(codigoTempo, produto = 'civil') {
     return mapa[codigoTempo] || { icone: '❓', descricao: 'Condição desconhecida' };
 }
 
-// Função para mapear velocidade do vento
 function mapearVelocidadeVento(codigo) {
     const velocidades = {
         1: { descricao: 'Calmo', velocidade: '< 0.3 m/s' },
@@ -73,9 +70,6 @@ function mapearVelocidadeVento(codigo) {
     return velocidades[codigo] || { descricao: 'Desconhecido', velocidade: 'N/A' };
 }
 
-/// ... (código anterior mantido)
-
-// Função para exibir previsão do tempo
 export function exibirPrevisaoTempo(dados, localizacao, produto = 'civil') {
     const container = document.getElementById('weather-container');
     
@@ -201,9 +195,6 @@ export function exibirPrevisaoTempo(dados, localizacao, produto = 'civil') {
     `;
 }
 
-// ... (restante do código mantido)
-
-// Função para obter localização do usuário
 export function obterLocalizacaoUsuario() {
     return new Promise((resolve, reject) => {
         if (!navigator.geolocation) {
@@ -247,36 +238,29 @@ export function obterLocalizacaoUsuario() {
     });
 }
 
-// Função para corrigir e validar o JSON problemático
 function corrigirJSONPrevisao(textoJSON) {
     try {
-        // Primeira tentativa: parse direto
         return JSON.parse(textoJSON);
     } catch (erroParse) {
         console.warn('JSON malformado detectado. Tentando correção...', erroParse);
         
         try {
-            // Estratégia 1: Corrigir campos incompletos
+     
             let jsonCorrigido = textoJSON
-                // Corrigir: "temp2m", -> "temp2m": null,
                 .replace(/"temp2m",\s*"rh2m"/g, '"temp2m": null, "rh2m"')
                 .replace(/"temp2m",\s*"wind10m"/g, '"temp2m": null, "wind10m"')
                 .replace(/"temp2m",\s*}/g, '"temp2m": null }')
-                
-                // Corrigir campos com valores inválidos
                 .replace(/"rh2m": ""/g, '"rh2m": "N/A"')
                 .replace(/"prec_amount": -?\d+/g, (match) => {
                     const valor = parseInt(match.split(':')[1].trim());
                     return valor >= 0 ? match : `"prec_amount": 0`;
                 })
                 
-                // Corrigir direção do vento inválida
-                .replace(/"direction": "-9999"/g, '"direction": "N/A"')
+                 .replace(/"direction": "-9999"/g, '"direction": "N/A"')
                 
-                // Corrigir velocidade do vento inválida
-                .replace(/"speed": -9999/g, '"speed": 0');
+                 .replace(/"speed": -9999/g, '"speed": 0');
 
-            // Tentar parse novamente
+       
             const dados = JSON.parse(jsonCorrigido);
             
             // Pós-processamento: limpar dados problemáticos
@@ -310,7 +294,7 @@ function corrigirJSONPrevisao(textoJSON) {
     }
 }
 
-// Função para consultar a API de previsão do tempo
+
 export async function consultarPrevisaoTempo(latitude, longitude, produto = 'civil') {
     try {
         if (!latitude || !longitude) {
@@ -321,17 +305,16 @@ export async function consultarPrevisaoTempo(latitude, longitude, produto = 'civ
             throw new Error('Coordenadas inválidas');
         }
 
-        // Validar produto
         if (!Object.keys(PRODUTOS).includes(produto)) {
             throw new Error('Produto de previsão inválido');
         }
 
-        // Construir URL da API - usando HTTPS e corrigindo parâmetros
+
         const url = `https://www.7timer.info/bin/api.pl?lon=${longitude}&lat=${latitude}&product=${produto}&output=json`;
         
         console.log(`Consultando previsão: ${url}`);
         
-        // Fazer a requisição com timeout
+
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 segundos
 
@@ -349,7 +332,7 @@ export async function consultarPrevisaoTempo(latitude, longitude, produto = 'civ
         const text = await response.text();
         console.log('Resposta bruta:', text.substring(0, 500)); // Log mais extenso para debug
         
-        // Usar a função de correção em vez de parse direto
+
         const dados = corrigirJSONPrevisao(text);
         
         return dados;
@@ -357,7 +340,6 @@ export async function consultarPrevisaoTempo(latitude, longitude, produto = 'civ
     } catch (error) {
         console.error('Erro ao consultar previsão do tempo:', error);
         
-        // Mensagens de erro mais específicas
         if (error.name === 'AbortError') {
             throw new Error('Timeout: A API demorou muito para responder');
         } else if (error.message.includes('Failed to fetch')) {
@@ -370,7 +352,7 @@ export async function consultarPrevisaoTempo(latitude, longitude, produto = 'civ
     }
 }
 
-// Funções globais para os botões
+
 window.recarregarPrevisao = function() {
     if (typeof carregarPrevisaoTempo === 'function') {
         carregarPrevisaoTempo();
