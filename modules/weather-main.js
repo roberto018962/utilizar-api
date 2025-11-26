@@ -6,17 +6,14 @@ import {
 } from './weather-api.js';
 import { mostrarErroClima } from './utils.js';
 
-// Configuração padrão
 const CONFIG_PADRAO = {
     latitude: -23.5505,  // São Paulo
     longitude: -46.6333,
     produto: 'civil'
 };
 
-// Variáveis globais para estado atual
 let configAtual = { ...CONFIG_PADRAO };
 
-// Função para carregar previsão do tempo
 export async function carregarPrevisaoTempo(latitude = null, longitude = null, produto = null) {
     const container = document.getElementById('weather-container');
     
@@ -26,12 +23,10 @@ export async function carregarPrevisaoTempo(latitude = null, longitude = null, p
     }
     
     try {
-        // Atualizar configuração atual
         if (latitude !== null) configAtual.latitude = latitude;
         if (longitude !== null) configAtual.longitude = longitude;
         if (produto !== null) configAtual.produto = produto;
         
-        // Mostrar loading
         container.innerHTML = `
             <div class="text-center">
                 <div class="spinner-border text-info" role="status">
@@ -42,20 +37,16 @@ export async function carregarPrevisaoTempo(latitude = null, longitude = null, p
             </div>
         `;
         
-        // Consultar API
+  
         const dados = await consultarPrevisaoTempo(
             configAtual.latitude, 
             configAtual.longitude, 
             configAtual.produto
         );
         
-        // Criar descrição da localização
+        
         const localizacao = `Lat: ${configAtual.latitude.toFixed(4)}, Lon: ${configAtual.longitude.toFixed(4)}`;
-        
-        // Exibir resultados
         exibirPrevisaoTempo(dados, localizacao, configAtual.produto);
-        
-        // Salvar no localStorage
         salvarConfiguracao(configAtual);
         
     } catch (error) {
@@ -64,7 +55,6 @@ export async function carregarPrevisaoTempo(latitude = null, longitude = null, p
     }
 }
 
-// Função para usar localização do usuário
 async function usarLocalizacaoUsuario() {
     try {
         const coords = await obterLocalizacaoUsuario();
@@ -73,7 +63,7 @@ async function usarLocalizacaoUsuario() {
     } catch (error) {
         console.warn('Erro na geolocalização:', error.message);
         
-        // Mensagem mais amigável para o usuário
+ 
         const mensagem = `
             Não foi possível obter sua localização automaticamente. 
             Motivo: ${error.message}
@@ -83,14 +73,14 @@ async function usarLocalizacaoUsuario() {
         
         mostrarErroClima(mensagem);
         
-        // Usar localização padrão após um breve delay
+  
         setTimeout(() => {
             carregarPrevisaoTempo();
         }, 3000);
     }
 }
 
-// Função para mostrar formulário de localização
+
 export function mostrarFormularioLocalizacao() {
     const container = document.getElementById('weather-container');
     
@@ -159,7 +149,7 @@ export function mostrarFormularioLocalizacao() {
         </div>
     `;
     
-    // Configurar formulário
+
     const form = document.getElementById('form-localizacao');
     if (form) {
         form.addEventListener('submit', async (event) => {
@@ -173,17 +163,17 @@ export function mostrarFormularioLocalizacao() {
         });
     }
     
-    // Carregar configuração salva
+
     carregarConfiguracao();
 }
 
-// Função para selecionar cidade
+
 window.selecionarCidade = function(latitude, longitude) {
     document.getElementById('latitude').value = latitude;
     document.getElementById('longitude').value = longitude;
 };
 
-// Função para usar localização do usuário
+
 window.usarMinhaLocalizacao = async function() {
     try {
         const coords = await obterLocalizacaoUsuario();
@@ -194,12 +184,11 @@ window.usarMinhaLocalizacao = async function() {
     }
 };
 
-// Função para voltar para previsão
 window.voltarParaPrevisao = function() {
     carregarPrevisaoTempo();
 };
 
-// Funções de persistência
+
 function salvarConfiguracao(config) {
     try {
         localStorage.setItem('weather-config', JSON.stringify(config));
@@ -220,22 +209,19 @@ function carregarConfiguracao() {
     }
 }
 
-// Inicializar quando a página carregar
+
 document.addEventListener('DOMContentLoaded', () => {
     console.log('Módulo de previsão do tempo carregado!');
-    
-    // Carregar configuração salva
+
     carregarConfiguracao();
     
-    // Verificar se o container existe
+
     if (document.getElementById('weather-container')) {
-        // Tentar usar geolocalização primeiro, depois padrão
-        setTimeout(() => {
+            setTimeout(() => {
             usarLocalizacaoUsuario();
         }, 500);
     }
 });
 
-// Exportar funções principais para uso global
 window.carregarPrevisaoTempo = carregarPrevisaoTempo;
 window.mostrarFormularioLocalizacao = mostrarFormularioLocalizacao;
